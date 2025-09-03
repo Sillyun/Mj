@@ -1,0 +1,386 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Azure Bay Hotel</title>
+  <meta name="description" content="Azure Bay Hotel – seaside comfort, modern rooms, easy booking."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0b1020;
+      --card: #12182b;
+      --muted: #8ea0b5;
+      --brand: #6dd3ff;
+      --brand-2:#00b2ff;
+      --text:#e9f1ff;
+      --accent:#ffe08a;
+      --ok:#35d399;
+      --warn:#ffba7a;
+      --danger:#ff7a7a;
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0; padding:0; background:var(--bg); color:var(--text); font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:inherit; text-decoration:none}
+    img{max-width:100%; display:block}
+    .container{width:min(1200px, 92%); margin-inline:auto}
+    .btn{display:inline-flex; gap:.5rem; align-items:center; justify-content:center; padding:.9rem 1.1rem; border-radius:calc(var(--radius) - 6px); background:linear-gradient(90deg,var(--brand),var(--brand-2)); color:#001018; font-weight:700; border:none; cursor:pointer; transition:transform .15s ease, filter .2s ease; box-shadow:var(--shadow)}
+    .btn:hover{transform:translateY(-1px); filter:saturate(1.2)}
+    .btn.ghost{background:transparent; border:1px solid #2a3552; color:var(--text); box-shadow:none}
+    .pill{padding:.35rem .7rem; border-radius:999px; background:#0e1a33; border:1px solid #233255; color:var(--brand)}
+    .badge{padding:.25rem .5rem; border-radius:8px; background:#0e1a33; border:1px solid #233255; color:var(--muted); font-size:.8rem}/* Navbar */
+header.nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(140%) blur(8px); background:rgba(11,16,32,.6); border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-inner{display:flex; align-items:center; justify-content:space-between; padding:1rem 0}
+.brand{display:flex; gap:.6rem; align-items:center; font-weight:800; letter-spacing:.5px}
+.logo{width:36px; height:36px; border-radius:10px; background:conic-gradient(from 210deg at 50% 50%, var(--brand), #8afff1, #a9a3ff, var(--brand-2)); box-shadow:0 6px 18px rgba(0,178,255,.45)}
+nav ul{list-style:none; display:flex; gap:1rem; padding:0; margin:0}
+nav a{opacity:.9}
+.nav-actions{display:flex; gap:.6rem; align-items:center}
+.mobile-toggle{display:none}
+
+/* Hero */
+.hero{position:relative; overflow:hidden;}
+.hero-wrap{display:grid; grid-template-columns: 1.2fr 1fr; gap:2rem; align-items:center; padding:3rem 0 2rem}
+.hero h1{font-size: clamp(2rem, 4vw + .5rem, 3.6rem); line-height:1.05; margin:.2rem 0 1rem}
+.hero p{color:var(--muted); max-width:50ch}
+.hero-visual{position:relative}
+.hero-visual .card{background:linear-gradient(180deg,#0e1530,#0b1328); border:1px solid #263150; border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow)}
+.hero-visual .grid{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.hero-visual img{height:180px; object-fit:cover; border-radius:12px}
+.ribbon{position:absolute; inset:auto 0 12px auto; transform:translateX(10%); background:#0b152b; border:1px solid #203056; padding:.6rem .9rem; border-radius:14px; display:flex; gap:.6rem; align-items:center; box-shadow:var(--shadow)}
+
+/* Booking Card */
+.booking{margin-top:2rem; background:linear-gradient(160deg,#0e1736 0%, #0b1328 65%); border:1px solid #263150; border-radius:var(--radius); box-shadow:var(--shadow)}
+.booking form{display:grid; grid-template-columns: repeat(6,1fr); gap:12px; padding:1rem}
+.field{display:flex; flex-direction:column; gap:.35rem}
+.field label{font-size:.85rem; color:var(--muted)}
+.field input,.field select{background:#0f1a34; color:var(--text); border:1px solid #243155; border-radius:12px; padding:.8rem .9rem; outline:none}
+.field input:focus,.field select:focus{border-color:var(--brand)}
+.submit-col{display:flex; align-items:end}
+
+/* Sections */
+section{padding:3.5rem 0}
+.section-head{display:flex; align-items:end; justify-content:space-between; gap:1rem; margin-bottom:1.2rem}
+.section-head h2{margin:0; font-size: clamp(1.4rem, 2.2vw + .5rem, 2.2rem)}
+.cards{display:grid; grid-template-columns: repeat(3, 1fr); gap:18px}
+.card{background:linear-gradient(180deg,#0e1530,#0b1328); border:1px solid #263150; border-radius:var(--radius); overflow:hidden}
+.card .media{position:relative;}
+.card .media img{height:210px; width:100%; object-fit:cover}
+.card .body{padding:1rem}
+.price{font-weight:800}
+.strike{opacity:.6; text-decoration:line-through; font-weight:400; margin-left:.4rem}
+
+/* Amenities grid */
+.amenities{display:grid; grid-template-columns: repeat(4,1fr); gap:14px}
+.amenity{background:#0f1832; border:1px solid #223055; padding:1rem; border-radius:16px}
+
+/* Gallery */
+.gallery{display:grid; grid-template-columns:2fr 1fr 1fr; grid-template-rows:200px 200px; gap:10px}
+.gallery img{width:100%; height:100%; object-fit:cover; border-radius:14px}
+.gallery img:nth-child(1){grid-row: span 2}
+
+/* Testimonials */
+.tweets{display:grid; grid-template-columns: repeat(3,1fr); gap:16px}
+.tweet{background:#0f1832; border:1px solid #233255; border-radius:16px; padding:1rem}
+
+/* Footer */
+footer{border-top:1px solid rgba(255,255,255,.06); padding:2.5rem 0 3rem; color:#b3c1d6}
+
+/* Sticky action */
+.sticky-cta{position:fixed; right:18px; bottom:18px; z-index:60}
+
+/* Toast */
+.toast{position:fixed; left:50%; transform:translateX(-50%); bottom:22px; background:#0f1832; border:1px solid #224; padding:.8rem 1rem; border-radius:12px; display:none}
+
+/* Responsive */
+@media (max-width: 980px){
+  .hero-wrap{grid-template-columns: 1fr; padding:2rem 0 1rem}
+  .booking form{grid-template-columns: 1fr 1fr;}
+  .cards{grid-template-columns: 1fr 1fr}
+  .amenities{grid-template-columns: 1fr 1fr}
+  .gallery{grid-template-columns:1fr 1fr; grid-template-rows: 180px 180px 180px}
+  .tweets{grid-template-columns: 1fr 1fr}
+  nav ul{display:none}
+  .mobile-toggle{display:inline-flex}
+}
+@media (max-width: 620px){
+  .cards,.tweets,.amenities{grid-template-columns: 1fr}
+  .gallery{grid-template-columns:1fr; grid-template-rows:180px 180px 180px 180px}
+  .ribbon{display:none}
+}
+
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#" class="brand" aria-label="Azure Bay Hotel Home">
+        <span class="logo"></span>
+        <span>Azure Bay Hotel</span>
+      </a>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#rooms">Rooms</a></li>
+          <li><a href="#amenities">Amenities</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn ghost" id="openSearch">Check Availability</button>
+        <button class="btn" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Book Now</button>
+        <button class="btn ghost mobile-toggle" id="mobileMenu" aria-label="Toggle navigation">☰</button>
+      </div>
+    </div>
+  </header>  <!-- HERO -->  <section class="hero">
+    <div class="container hero-wrap">
+      <div>
+        <span class="pill">SEASIDE · LUXURY · COMFORT</span>
+        <h1>Wake up to the waves. Sleep like royalty.</h1>
+        <p>Welcome to Azure Bay Hotel — thoughtfully designed rooms, award‑winning dining, and a private shoreline. Book directly for exclusive perks and flexible cancellation.</p>
+        <div style="display:flex; gap:.6rem; margin-top:1rem">
+          <button class="btn" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Start your stay</button>
+          <a class="btn ghost" href="#gallery">See photos</a>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:1.1rem">
+          <span class="badge">Free breakfast</span>
+          <span class="badge">Late checkout</span>
+          <span class="badge">Pay at hotel</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="grid">
+          <img src="https://images.unsplash.com/photo-1502920917128-1aa500764b8a?q=80&w=1200&auto=format&fit=crop" alt="Infinity pool overlooking the ocean">
+          <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1200&auto=format&fit=crop" alt="Modern hotel room with ocean view">
+          <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1200&auto=format&fit=crop" alt="Hotel lobby with warm lighting">
+          <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1200&auto=format&fit=crop" alt="Restaurant table set for dinner">
+        </div>
+        <div class="ribbon" aria-live="polite"><span>⭐</span><span>Rated 4.8/5 by 2,431 guests</span></div>
+      </div>
+    </div>
+  </section>  <!-- BOOKING -->  <section id="booking" class="container booking" aria-label="Quick booking form">
+    <form id="bookingForm">
+      <div class="field" style="grid-column: span 2">
+        <label for="hotel">Hotel</label>
+        <select id="hotel" name="hotel" required>
+          <option value="Azure Bay">Azure Bay – Oceanfront</option>
+          <option value="Azure City">Azure City – Downtown</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="checkin">Check‑in</label>
+        <input type="date" id="checkin" name="checkin" required />
+      </div>
+      <div class="field">
+        <label for="checkout">Check‑out</label>
+        <input type="date" id="checkout" name="checkout" required />
+      </div>
+      <div class="field">
+        <label for="guests">Guests</label>
+        <select id="guests" name="guests">
+          <option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="rooms">Rooms</label>
+        <select id="rooms" name="rooms">
+          <option>1</option><option>2</option><option>3</option>
+        </select>
+      </div>
+      <div class="submit-col">
+        <button class="btn" style="width:100%">Search</button>
+      </div>
+    </form>
+    <div id="offerBar" style="display:none; border-top:1px solid #223255; padding: .8rem 1rem; color:var(--muted)"></div>
+  </section>  <!-- ROOMS -->  <section id="rooms" class="container">
+    <div class="section-head">
+      <h2>Popular Rooms</h2>
+      <a class="btn ghost" href="#booking">Check availability →</a>
+    </div>
+    <div class="cards" id="roomGrid"></div>
+  </section>  <!-- AMENITIES -->  <section id="amenities" class="container">
+    <div class="section-head"><h2>Amenities</h2></div>
+    <div class="amenities">
+      <div class="amenity">🏊‍♂️ Infinity Pool</div>
+      <div class="amenity">🧘 Spa & Wellness</div>
+      <div class="amenity">🍽️ 24/7 Room Service</div>
+      <div class="amenity">🚗 Free Parking</div>
+      <div class="amenity">🌐 High‑speed Wi‑Fi</div>
+      <div class="amenity">🏖️ Private Beach</div>
+      <div class="amenity">🍼 Family Friendly</div>
+      <div class="amenity">🧺 Laundry Service</div>
+    </div>
+  </section>  <!-- GALLERY -->  <section id="gallery" class="container">
+    <div class="section-head"><h2>Gallery</h2></div>
+    <div class="gallery">
+      <img src="https://images.unsplash.com/photo-1501117716987-c8e1ecb2101f?q=80&w=1600&auto=format&fit=crop" alt="Sunset over the bay">
+      <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1200&auto=format&fit=crop" alt="Cozy lounge">
+      <img src="https://images.unsplash.com/photo-1551776235-dde6d4829808?q=80&w=1200&auto=format&fit=crop" alt="Breakfast spread">
+      <img src="https://images.unsplash.com/photo-1496412705862-e0088f16f791?q=80&w=1200&auto=format&fit=crop" alt="Fine dining">
+      <img src="https://images.unsplash.com/photo-1520256862855-398228c41684?q=80&w=1200&auto=format&fit=crop" alt="Evening pool">
+    </div>
+  </section>  <!-- TESTIMONIALS -->  <section class="container">
+    <div class="section-head"><h2>What guests say</h2></div>
+    <div class="tweets">
+      <div class="tweet">“Best sleep I’ve had in years. The ocean view is unreal.” – Ada</div>
+      <div class="tweet">“Booked direct and got free breakfast + late checkout. Loved it.” – Daniel</div>
+      <div class="tweet">“Kid‑friendly and the spa is heavenly. We’ll be back!” – Hafsat</div>
+    </div>
+  </section>  <!-- CONTACT / FAQ -->  <section id="contact" class="container">
+    <div class="section-head"><h2>Contact & FAQ</h2></div>
+    <div class="cards">
+      <div class="card">
+        <div class="body">
+          <h3>Call or WhatsApp</h3>
+          <p class="muted">+234 800 000 0000</p>
+          <p class="muted">Front desk: 24/7</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="body">
+          <h3>Location</h3>
+          <p class="muted">Ocean Drive 12, Victoria Island, Lagos</p>
+          <p class="muted">Airport transfer available</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="body">
+          <h3>FAQ</h3>
+          <details>
+            <summary>Is breakfast included?</summary>
+            <p>Yes, for all direct bookings.</p>
+          </details>
+          <details>
+            <summary>Can I cancel?</summary>
+            <p>Free cancellation up to 48 hours before check‑in.</p>
+          </details>
+          <details>
+            <summary>Do you allow late checkout?</summary>
+            <p>Yes, when available. Members get priority.</p>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>  <!-- FOOTER -->  <footer>
+    <div class="container" style="display:grid; grid-template-columns: 1.2fr 1fr 1fr; gap:18px">
+      <div>
+        <div class="brand"><span class="logo"></span><span>Azure Bay Hotel</span></div>
+        <p style="max-width:44ch; color:var(--muted)">Direct bookings. Better perks. We’re committed to sustainable operations and community impact.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul style="list-style:none; padding:0; color:#c6d3e6">
+          <li><a href="#rooms">Rooms & Suites</a></li>
+          <li><a href="#amenities">Amenities</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul style="list-style:none; padding:0; color:#c6d3e6">
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>  <!-- Sticky CTA -->  <div class="sticky-cta">
+    <button class="btn" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Book your stay →</button>
+  </div>  <!-- Toast -->  <div id="toast" class="toast" role="status" aria-live="polite"></div>  <script>
+    // Mobile nav quick toggle (simple example)
+    const mobileToggle = document.getElementById('mobileMenu');
+    const nav = document.querySelector('nav ul');
+    mobileToggle?.addEventListener('click',()=>{
+      const showing = getComputedStyle(nav).display !== 'none'
+      nav.style.display = showing ? 'none' : 'flex'
+      nav.style.flexDirection = showing ? '' : 'column'
+      nav.style.gap = showing ? '' : '1rem'
+    })
+
+    // Rooms data (mock). In a real app, fetch from API.
+    const ROOMS = [
+      { id:'dlx', name:'Deluxe Ocean View', price: 82000, strike: 96000, beds:'1 King · 2 Guests', img:'https://images.unsplash.com/photo-1560448075-bb4caa6c8e26?q=80&w=1200&auto=format&fit=crop', perks:['Breakfast','Balcony','Ocean View'] },
+      { id:'fam', name:'Family Suite', price: 119000, strike: 139000, beds:'2 Queen · 4 Guests', img:'https://images.unsplash.com/photo-1551776235-dde6d4829808?q=80&w=1200&auto=format&fit=crop', perks:['Breakfast','Living Area','Kids Welcome'] },
+      { id:'std', name:'Standard City', price: 56000, strike: 62000, beds:'1 Queen · 2 Guests', img:'https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1200&auto=format&fit=crop', perks:['Breakfast','Smart TV','Workspace'] },
+    ]
+
+    const roomGrid = document.getElementById('roomGrid')
+    const fmt = (n)=> new Intl.NumberFormat('en-NG',{style:'currency', currency:'NGN', maximumFractionDigits:0}).format(n)
+
+    function renderRooms(){
+      roomGrid.innerHTML = ROOMS.map(r=>`
+        <article class="card" aria-label="${r.name}">
+          <div class="media">
+            <img src="${r.img}" alt="${r.name}">
+          </div>
+          <div class="body">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:10px">
+              <h3 style="margin:0">${r.name}</h3>
+              <span class="badge">${r.beds}</span>
+            </div>
+            <p style="color:var(--muted); margin:.3rem 0 .9rem">${r.perks.join(' · ')}</p>
+            <div style="display:flex; align-items:center; gap:.4rem; margin-bottom:1rem">
+              <span class="price">${fmt(r.price)} / night</span>
+              <span class="strike">${fmt(r.strike)}</span>
+            </div>
+            <div style="display:flex; gap:.6rem">
+              <button class="btn" onclick="selectRoom('${r.id}')">Select</button>
+              <button class="btn ghost" onclick="viewRoom('${r.id}')">Details</button>
+            </div>
+          </div>
+        </article>`).join('')
+    }
+
+    renderRooms()
+
+    // Booking logic (client‑side demo)
+    const todayISO = new Date().toISOString().slice(0,10)
+    const checkin = document.getElementById('checkin')
+    const checkout = document.getElementById('checkout')
+    checkin.min = todayISO
+    checkout.min = todayISO
+
+    checkin.addEventListener('change', ()=>{
+      const d = new Date(checkin.value)
+      if(!isNaN(d)){ const outMin = new Date(d); outMin.setDate(outMin.getDate()+1); checkout.min = outMin.toISOString().slice(0,10) }
+    })
+
+    const form = document.getElementById('bookingForm')
+    const offerBar = document.getElementById('offerBar')
+
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault()
+      const data = Object.fromEntries(new FormData(form).entries())
+      const ci = new Date(data.checkin)
+      const co = new Date(data.checkout)
+      const nights = Math.max(1, Math.round((co-ci)/86400000))
+      // Simple dynamic pricing: weekends 10% more
+      const weekendBoost = [6,0].includes(ci.getDay()) || [6,0].includes(co.getDay()) ? 1.10 : 1
+      const base = ROOMS[0].price // Suggest Deluxe by default
+      const estimate = Math.round(base * nights * weekendBoost)
+      offerBar.style.display = 'block'
+      offerBar.innerHTML = `📅 <strong>${nights}</strong> night${nights>1?'s':''} · starting from <strong>${fmt(estimate)}</strong> total. <em style="color:var(--muted)">Prices vary by room.</em>`
+      toast('Availability updated — scroll to pick a room')
+      document.getElementById('rooms').scrollIntoView({behavior:'smooth'})
+    })
+
+    function selectRoom(id){
+      const r = ROOMS.find(x=>x.id===id)
+      const ci = document.getElementById('checkin').value
+      const co = document.getElementById('checkout').value
+      if(!ci || !co){ toast('Select dates first'); document.getElementById('booking').scrollIntoView({behavior:'smooth'}); return }
+      // Demo: show summary “drawer”
+      const nights = Math.max(1, Math.round((new Date(co)-new Date(ci))/86400000))
+      const total = fmt(r.price * nights)
+      toast(`${r.name} reserved · ${nights} night${nights>1?'s':''} · ${total}. Proceed to checkout →`)
+    }
+
+    function viewRoom(id){
+      const r = ROOMS.find(x=>x.id===id)
+      alert(`${r.name}\n\nBeds: ${r.beds}\nPerks: ${r.perks.join(', ')}\nPrice: ${fmt(r.price)} / night`)
+    }
